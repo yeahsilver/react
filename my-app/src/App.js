@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Movie from './Movie'
@@ -26,14 +26,18 @@ const movies = [
   }
 ]
 
-function App() {
-  return (
-    <div className="App">
-      {movies.map( ( movie, index ) => {
-      return <Movie title={movie.title} poster={movie.poster} key={index}/>
-      })}
-    </div>
-  );
+class App extends Component{
+  // Render: componentWillMount() -> render() -> componentDidMount()
+  // Update: componentWillReceiveProps() -> shouldComponentUpdate() -> componentWillUpdate() -> render() -> componentDidUpdate()
+  render(){
+    return (
+      <div className="App">
+        {movies.map( ( movie, index ) => {
+        return <Movie title={movie.title} poster={movie.poster} key={index}/>
+        })}
+      </div>
+    );
+  }
 }
 
 export default App;
