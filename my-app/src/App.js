@@ -10,17 +10,29 @@ class App extends Component{
   state = {}
 
   componentDidMount(){
-    fetch('https://yts.mx/api/v2/list_movies.json?sort_by=rating')
-    .then(response => response.json())
-    .then(json => console.log(json))
-    .catch(err => console.log(err))
+    this._getMovies();
   }
 
   _renderMovies = () => {
     const movies = this.state.movies.map( ( movie, index ) => {
-      return <Movie title={movie.title} poster={movie.poster} key={index}/>
+      return <Movie title={movie.title} poster={movie.large_cover_image} key={index}/>
     })
     return movies
+  }
+
+  _getMovies = async () => {
+    // await: callApi를 끝나는 것을 기다림.
+    const movies = await this._callApi()
+    this.setState({
+      movies
+    })
+  }
+
+  _callApi = () => {
+    return fetch('https://yts.mx/api/v2/list_movies.json?sort_by=rating')
+    .then(response => response.json())
+    .then(json => json.data.movies)
+    .catch(err => console.log(err))
   }
 
   render(){
