@@ -14,8 +14,9 @@ class App extends Component{
   }
 
   _renderMovies = () => {
-    const movies = this.state.movies.map( ( movie, index ) => {
-      return <Movie title={movie.title} poster={movie.large_cover_image} key={index}/>
+    const movies = this.state.movies.map( ( movie ) => {
+      // index 대신 movie.id를 사용하면 속도가 향상됨.
+      return <Movie title={movie.title} poster={movie.large_cover_image} key={movie.id}/>
     })
     return movies
   }
