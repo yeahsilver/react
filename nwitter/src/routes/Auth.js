@@ -5,6 +5,7 @@ const Auth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [newAccount, setNewAccount] = useState(true);
+    const [error, setError] = useState("");
     
     const onChange = (event)=>{
         const { target: {name, value}} = event;
@@ -14,6 +15,8 @@ const Auth = () => {
             setPassword(value);
         }
     };
+
+    const toggleAccount = () => setNewAccount(prev => !prev);
 
     const onSubmit = async (event) =>{
         // 기본설정을 설정하지 않음. 
@@ -32,7 +35,7 @@ const Auth = () => {
                 );
             }
         } catch(error){
-            console.log(error);
+            setError(error.message);
         }
     };
     return (
@@ -56,7 +59,11 @@ const Auth = () => {
                     onChange={onChange}
                 />
                 <input type="submit" value={newAccount? "Create Account" : "Log In"}/>
+                {error}
             </form>
+            <span onClick={toggleAccount}>
+                {newAccount? "Sign In" : "Create Account"}
+            </span>
             <div>
                 <button>
                     Continue with Google
