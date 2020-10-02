@@ -16,7 +16,7 @@ function App() {
     });
   }, [])
   setInterval(() => {
-    console.log(authService.currentUser)
+    
   },2000);
   return(
     <>
