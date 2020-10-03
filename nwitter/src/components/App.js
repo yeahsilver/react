@@ -18,6 +18,7 @@ function App() {
   setInterval(() => {
     
   },2000);
+  
   return(
     <>
     {init ? <AppRouter isLoggedIn={isLoggedIn}/> : "Initializing..."}
