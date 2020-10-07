@@ -5,12 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import logo_small from "../logo-small.png"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,10 +37,7 @@ const Register = () => {
     <div className={classes.background}>
 
       <Container className={classes.root}>
-        <img alt="CAMTACT" className={classes.logo} />
-        <Typography align="center" className={classes.logoTitle}>
-          회원가입
-        </Typography>
+        <img alt="CAMTACT" src={logo_small} className={classes.logo} />
       </Container>
       <Container>
         <TextField
@@ -92,10 +84,12 @@ const Register = () => {
         </Button>
         <Link to="/">
         <Button
+        className={classes.bottom}
         fullWidth
         variant="contained"
         color="secondary"
-        size="large">
+        size="large"
+        >
         취소
         </Button>
         </Link>

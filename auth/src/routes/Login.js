@@ -1,10 +1,11 @@
 import React from "react";
+import logo from "../logo.png";
+import logo_small from "../logo-small.png";
 import { Link } from 'react-router-dom'; 
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,10 +36,7 @@ const Login = () => {
   return (
     <div className={classes.background}>
       <Container className={classes.root}>
-        <img alt="CAMTACT" className={classes.logo} />
-        <Typography align="center" className={classes.logoTitle}>
-          로그인
-        </Typography>
+        <img alt="CAMTACT" src={logo_small} className={classes.logo} />
       </Container>
       <Container>
         <form className={classes.root}>
