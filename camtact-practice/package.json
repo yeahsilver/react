@@ -1,5 +1,6 @@
 {
   "name": "camtact-practice",
+  "main": "src/electron-starter.js",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +18,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-start": "nf start"
   },
   "eslintConfig": {
     "extends": [
@@ -36,5 +39,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2",
+    "electron": "^10.1.5",
+    "electron-builder": "^22.9.1",
+    "foreman": "^3.0.1",
+    "wait-on": "^5.2.0"
   }
 }
