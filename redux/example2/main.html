@@ -49,7 +49,11 @@
             function control(){
                 document.querySelector('#control').innerHTML = `
                 <ul>
-                    <li><a href="/create">create</a></li>
+                    <li><a onClick="
+                        event.preventDefault();
+
+                    "
+                    href="/create">create</a></li>
                     <li><input type="button" value="delete"></li>
                 </ul>
                 `;
@@ -57,45 +61,84 @@
 
             function article(){
                 var state = store.getState();
-                var i = 0;
-                var aTitle, aDesc;
-                while(i < state.contents.length){
-                    if(state.contents[i].id === state.selected_id){
-                        aTitle = state.contents[i].title;
-                        aDesc = state.contents[i].desc;
-                        break;
+                console.log(state);
+                if(state.mode === 'create'){
+                    document.querySelector('#article').innerHTML = `
+                    <article>
+                        <form onSubmit="
+                            event.preventDefault();
+                            var _title = this.title.value;
+                            var _desc = this.desc.value ;
+                            store.dispatch({
+                                type: 'CREATE',
+                                title: _title,
+                                desc: _desc
+                            });
+                        ">
+                            <p>
+                                <input type="text", name="title", placeholder="title">
+                            </p>
+                            <p>
+                                <textarea name="desc" placeholder="description"></textarea>
+                            </p>
+                            <p>
+                                <input type="submit">
+                            </p>
+                        </form>
+                    </article>
+                    `;
+                } else if(state.mode === 'read'){
+                    var i = 0;
+                    var aTitle, aDesc;
+                    while(i < state.contents.length){
+                        if(state.contents[i].id === state.selected_id){
+                            aTitle = state.contents[i].title;
+                            aDesc = state.contents[i].desc;
+                            break;
+                        }
+                        i = i+1;
                     }
-                    i = i+1;
+                    document.querySelector('#article').innerHTML = `
+                    <article>
+                        <h2>${aTitle}</h2>
+                        ${aDesc}
+                    </article>
+                    `;
                 }
-                document.querySelector('#article').innerHTML = `
-                <article>
-                    <h2>${aTitle}</h2>
-                    ${aDesc}
-                </article>
-                `;
             }
             function reducer(state, action){
-                console.log(state, action);
                 if(state === undefined){
                     return {
+                        max_id: 2,
+                        mode: 'create',
                         selected_id: 1,
                         contents: [
                             {id: 1, title: 'HTML', desc:'HTML is ...'},
                             {id: 2, title: 'CSS', desc: 'CSS is ...'}
-                        ]
+                        ],
                     }
                 }
                 var newState;
                 if(action.type === 'SELECT'){
                     newState = Object.assign({}, state, {selected_id: action.id});
+                } else if(action.type === 'CREATE'){
+                    // 배열 복제: asign 대신 concat 사용
+                    var newMaxId = state.max_id + 1;
+                    var newContents = state.contents.concat();
+                    newContents.push({id: newMaxId, title: action.title, desc: action.desc});
+                    newState = Object.assign({}, state, {
+                        max_id: newMaxId,
+                        mode: 'read',
+                        contents: newContents
+                    })
                 }
-                console.log(action, state, newState);
                 return newState
             }
 
             var store = Redux.createStore(reducer);
             store.subscribe(article);
-            
+            store.subscribe(TOC);
+
             subject();
             TOC();
             control();
