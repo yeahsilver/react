@@ -51,10 +51,18 @@
                 <ul>
                     <li><a onClick="
                         event.preventDefault();
-
+                        store.dispatch({
+                            type: 'CHANGE_MODE',
+                            mode: 'create'
+                        })
                     "
                     href="/create">create</a></li>
-                    <li><input type="button" value="delete"></li>
+                    <li><input onClick="
+                        store.dispatch({
+                            type: 'DELETE'
+                        });
+                    "
+                    type="button" value="delete"></li>
                 </ul>
                 `;
             }
@@ -104,13 +112,20 @@
                         ${aDesc}
                     </article>
                     `;
+                } else if(state.mode === 'welcome'){
+                    document.querySelector('#article').innerHTML = `
+                        <article>
+                            <h2> Welcome </h2>
+                            Hello, Redux!
+                        </article>
+                    `
                 }
             }
             function reducer(state, action){
                 if(state === undefined){
                     return {
                         max_id: 2,
-                        mode: 'create',
+                        mode: 'welcome',
                         selected_id: 1,
                         contents: [
                             {id: 1, title: 'HTML', desc:'HTML is ...'},
@@ -120,7 +135,7 @@
                 }
                 var newState;
                 if(action.type === 'SELECT'){
-                    newState = Object.assign({}, state, {selected_id: action.id});
+                    newState = Object.assign({}, state, {selected_id: action.id, mode: 'read'});
                 } else if(action.type === 'CREATE'){
                     // 배열 복제: asign 대신 concat 사용
                     var newMaxId = state.max_id + 1;
@@ -130,6 +145,26 @@
                         max_id: newMaxId,
                         mode: 'read',
                         contents: newContents
+                    })
+                } else if(action.type === 'DELETE'){
+                    var newContents = [];
+                    var i = 0;
+                    while(i < state.contents.length){
+                        if(state.selected_id !== state.contents[i].id){
+                             newContents.push(
+                                 state.contents[i]
+                             );
+                        }
+                        i = i + 1;
+                    }
+                    newState = Object.assign({}, state, 
+                    {
+                        contents: newContents,
+                        mode: 'welcome'
+                    });
+                } else if(action.type === 'CHANGE_MODE'){
+                    newState = Object.assign({}, state, {
+                        mode: action.mode
                     })
                 }
                 return newState
